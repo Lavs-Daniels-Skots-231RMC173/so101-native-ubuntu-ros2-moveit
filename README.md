@@ -310,5 +310,111 @@ so101-native-ubuntu-ros2-moveit/
 └── logs/
     └── selected_logs.md
 
+---
 
+## 🚀 Roadmap
+
+- [x] Install native Ubuntu for robot work
+- [x] Validate LeRobot follower-leader teleoperation
+- [x] Validate camera setup
+- [x] Record and replay data
+- [x] Validate ACT workflow on native Ubuntu
+- [x] Build ROS 2 Jazzy workspace
+- [x] Bring up real hardware in ROS 2
+- [x] Load `forward_controller`
+- [x] Load `arm_trajectory_controller`
+- [x] Launch MoveIt successfully
+- [x] Verify that all 6 commanded channels affect the robot
+- [ ] Reconcile LeRobot calibration with ROS 2 configuration
+- [ ] Define a known-safe real robot reference pose
+- [ ] Align real robot pose with RViz / MoveIt state
+- [ ] Validate repeatable and physically meaningful MoveIt execution
+- [ ] Document final stable bring-up workflow
+- [ ] Clean and publish portfolio-ready project assets
+
+---
+
+## 🧭 Current engineering conclusion
+
+The ROS 2 and MoveIt stack is now **partially working on real hardware**, but the system still needs:
+
+- final calibration reconciliation
+- safe startup pose definition
+- real pose ↔ model pose alignment
+- repeatable physical validation
+
+before it can be treated as a robust real-hardware manipulation pipeline.
+
+So the current state is best described as:
+
+> **controller path validated, stack operational, semantics still being reconciled**
+
+---
+
+## 💼 Why this project matters as a portfolio piece
+
+This is not just a “robot demo” project.
+
+It represents practical work in:
+
+- robotics integration
+- mechatronics
+- controls
+- Linux-based hardware bring-up
+- ROS 2 debugging
+- controller validation
+- state-model mismatch analysis
+- experimental problem isolation
+- real-world engineering under imperfect conditions
+
+This is much closer to actual engineering work than a clean simulation-only project.
+
+---
+
+## 👤 Intended audience
+
+This repository may be useful for:
+
+- robotics students
+- mechatronics students
+- ROS 2 beginners working with real hardware
+- people integrating SO-101 / SO-ARM101
+- engineers debugging controller / calibration mismatches
+- employers evaluating practical robotics integration work
+
+---
+
+## 📝 Disclaimer
+
+This repository documents real practical experiments on a physical robot.
+
+Some parts of the stack are still under active debugging and should not be treated as a finished production-ready robotics solution.
+
+The value of the project is in the engineering process:
+
+- problem isolation
+- low-level validation
+- systems understanding
+- cross-stack debugging
+- documenting real lessons from physical hardware
+
+---
+
+## 🙌 Acknowledgements
+
+Thanks to the maintainers and contributors of the open-source projects that made this work possible, especially in the LeRobot, ROS 2, and SO-101 / SO-ARM101 ecosystem.
+
+---
+
+## 📫 Notes
+
+This repository will continue to evolve as the following are documented:
+
+- calibration reconciliation
+- stable real-hardware startup procedure
+- final MoveIt bring-up workflow
+- screenshots, logs, and comparison photos
+- lessons learned from debugging real robot semantics
+
+If you are working on a similar robot stack, this repo may help you avoid the same bring-up pitfalls.
     
