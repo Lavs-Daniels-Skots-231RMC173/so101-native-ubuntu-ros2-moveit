@@ -312,7 +312,7 @@ so101-native-ubuntu-ros2-moveit/
 
 ---
 
-## 🚀 Roadmap
+### 🚀 Roadmap
 
 - [x] Install native Ubuntu for robot work
 - [x] Validate LeRobot follower-leader teleoperation
@@ -334,7 +334,7 @@ so101-native-ubuntu-ros2-moveit/
 
 ---
 
-## 🧭 Current engineering conclusion
+### 🧭 Current engineering conclusion
 
 The ROS 2 and MoveIt stack is now **partially working on real hardware**, but the system still needs:
 
@@ -351,7 +351,7 @@ So the current state is best described as:
 
 ---
 
-## 💼 Why this project matters as a portfolio piece
+### 💼 Why this project matters as a portfolio piece
 
 This is not just a “robot demo” project.
 
@@ -371,7 +371,7 @@ This is much closer to actual engineering work than a clean simulation-only proj
 
 ---
 
-## 👤 Intended audience
+### 👤 Intended audience
 
 This repository may be useful for:
 
@@ -384,7 +384,7 @@ This repository may be useful for:
 
 ---
 
-## 📝 Disclaimer
+### 📝 Disclaimer
 
 This repository documents real practical experiments on a physical robot.
 
@@ -400,13 +400,13 @@ The value of the project is in the engineering process:
 
 ---
 
-## 🙌 Acknowledgements
+### 🙌 Acknowledgements
 
 Thanks to the maintainers and contributors of the open-source projects that made this work possible, especially in the LeRobot, ROS 2, and SO-101 / SO-ARM101 ecosystem.
 
 ---
 
-## 📫 Notes
+### 📫 Notes
 
 This repository will continue to evolve as the following are documented:
 
