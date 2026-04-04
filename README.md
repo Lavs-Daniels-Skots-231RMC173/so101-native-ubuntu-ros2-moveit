@@ -282,7 +282,8 @@ This repository is especially focused on:
 
 ---
 
-## 📂 Planned repository structure
+
+## 📁 Planned repository structure
 
 ```text
 so101-native-ubuntu-ros2-moveit/
@@ -306,8 +307,10 @@ so101-native-ubuntu-ros2-moveit/
 ├── notes/
 │   ├── timeline.md
 │   ├── experiments.md
-│   └── command_tests.md
-│   └── selected_logs.md
+│   ├── command_tests.md
+└── logs/
+    └── selected_logs.md
+```
 
 ---
 
@@ -344,9 +347,7 @@ The ROS 2 and MoveIt stack is now **partially working on real hardware**, but th
 
 before it can be treated as a robust real-hardware manipulation pipeline.
 
-So the current state is best described as:
-
-> **controller path validated, stack operational, semantics still being reconciled**
+> **Current state:** controller path validated, stack operational, semantics still being reconciled.
 
 ---
 
