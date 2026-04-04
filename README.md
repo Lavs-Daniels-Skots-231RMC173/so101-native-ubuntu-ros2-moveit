@@ -1,14 +1,21 @@
 # SO-101 Native Ubuntu ROS 2 MoveIt Bring-Up
 
-Practical bring-up of a real SO-101 / SO-ARM101 follower-leader robot on native Ubuntu with LeRobot, ROS 2 Jazzy, and MoveIt.
+> Real-hardware bring-up of a real **SO-101 / SO-ARM101 follower-leader robot** on **native Ubuntu** with **LeRobot**, **ROS 2 Jazzy**, and **MoveIt**.
+
+![Status](https://img.shields.io/badge/status-in%20progress-orange)
+![Ubuntu](https://img.shields.io/badge/Ubuntu-24.04-E95420)
+![ROS2](https://img.shields.io/badge/ROS%202-Jazzy-22314E)
+![MoveIt](https://img.shields.io/badge/MoveIt-enabled-blue)
+![LeRobot](https://img.shields.io/badge/LeRobot-used-green)
+![Hardware](https://img.shields.io/badge/hardware-real%20robot-red)
 
 ---
 
-## Project overview
+## 🎯 Project goal
 
-This repository documents my practical engineering work with a real SO-101 / SO-ARM101 follower-leader robot pair.
+This repository documents my practical engineering work on bringing up a **real SO-101 / SO-ARM101 robot pair** and understanding the full integration path step by step.
 
-The main goal of the project is not just to “run the demo”, but to understand the full integration stack step by step:
+The goal is not just to “make the demo run”, but to understand and validate the entire stack:
 
 - hardware bring-up
 - USB / serial device mapping
@@ -19,141 +26,263 @@ The main goal of the project is not just to “run the demo”, but to understan
 - migration from WSL to native Ubuntu
 - ROS 2 Jazzy bring-up
 - MoveIt integration
-- debugging real-hardware controller behavior
-- identifying mismatches between calibration, URDF, ROS 2 state, and real robot motion
+- real-hardware controller validation
+- debugging mismatches between calibration, URDF, ROS 2 state, and physical robot motion
 
-This repository is intended as a practical engineering log and portfolio project for robotics / mechatronics / controls / integration roles.
+This repository is intended as both:
+
+- a **practical engineering log**
+- a **portfolio project** for robotics / mechatronics / controls / systems integration roles
 
 ---
 
-## Platform
+## 📌 Quick summary
+
+- **Native Ubuntu** works significantly better than WSL for real robot operation
+- **LeRobot follower-leader teleop** works on this hardware
+- **Cameras, replay, dataset recording, and ACT workflow** were validated
+- **ROS 2 bring-up** works with real hardware interfaces
+- **MoveIt launches and can communicate with the real controller**
+- **Per-joint controller tests confirmed that all 6 commanded channels affect the robot**
+- The remaining major task is **full calibration / semantics reconciliation** between:
+  - LeRobot calibration
+  - servo offsets / EEPROM behavior
+  - ROS 2 joint interpretation
+  - URDF / MoveIt model state
+  - actual mechanical pose of the arm
+
+---
+
+## 🧩 System stack
 
 ### Hardware
+
 - SO-101 / SO-ARM101 follower arm
 - SO-101 / SO-ARM101 leader arm
+- USB serial servo interface
 - USB cameras
-- Feetech serial servo bus
-- Ubuntu booted from external SSD during native testing
+- laptop running native Ubuntu
+- external SSD used during native testing
 
 ### Software
-- Ubuntu 24.04 / native Linux workflow
+
+- Ubuntu 24.04
 - ROS 2 Jazzy
 - MoveIt
+- ros2_control
+- RViz2
 - LeRobot
 - Python
-- RViz2
-- ros2_control
+- URDF / Xacro / YAML
 
 ---
 
-## Why this project matters
+## 📷 Screenshots and real robot
 
-This project became much more than a basic robot setup.
+> Add your own images into the repository and update these paths if needed.
 
-It turned into a real systems-integration exercise involving:
+### Real robot
+![Real robot folded pose](images/real_robot/follower_folded_pose.jpg)
 
-- robot hardware initialization
-- low-level serial communication debugging
-- controller bring-up
-- calibration consistency
-- teleop validation
-- real-world motion safety
-- MoveIt planning on real hardware
-- separation of “simulation state looks correct” vs “real robot actually behaves correctly”
+### Real robot extended pose
+![Real robot extended pose](images/real_robot/follower_extended_pose.jpg)
 
-A major practical lesson from this work was that **a green RViz / MoveIt status does not automatically mean the real robot is correctly calibrated or safe to execute**.
+### RViz / MoveIt
+![RViz MoveIt](images/rviz/moveit_view.jpg)
 
----
-
-## Current status
-
-### Working
-- Native Ubuntu environment boots and runs correctly
-- LeRobot follower-leader teleoperation works on native Ubuntu
-- Cameras work in the native setup
-- Dataset record / replay workflow was completed
-- ACT training and online policy execution were validated previously on native Ubuntu
-- ROS 2 Jazzy workspace builds successfully
-- ROS 2 bring-up runs with hardware interfaces
-- `joint_state_broadcaster` works
-- `forward_controller` works
-- `arm_trajectory_controller` can be loaded
-- MoveIt launches successfully
-- RViz2 + MoveIt planning scene load correctly
-- MoveIt can generate and send trajectories to the real hardware controller
-- Direct controller topic tests confirmed that all 6 commanded channels affect the robot
-
-### Investigated problems
-- Launch-time arm jumps into unsafe folded poses
-- Real arm pose and RViz pose do not always match
-- Some trajectories plan successfully but are not physically meaningful for the real configuration
-- Calibration values between LeRobot and ROS 2 stack are not yet fully reconciled
-- Controller command ordering / semantic mapping had to be tested manually
-- Some YAML parameter combinations caused bus read timeouts during servo configuration
-- MoveIt could appear operational while the real arm still had state / calibration inconsistencies
-
-### Current engineering conclusion
-The ROS 2 and MoveIt stack is now **partially working on real hardware**, but the system still needs **final calibration reconciliation and state-model alignment** before it can be treated as a robust real-hardware manipulation pipeline.
+### Real pose vs model pose mismatch example
+![Pose mismatch](images/real_robot/pose_mismatch.jpg)
 
 ---
 
-## Main engineering findings so far
+## 🔗 Related projects and references
+
+This project was informed by or built around the following open-source work:
+
+- **LeRobot**  
+  Used for teleoperation, dataset recording, replay, and ACT workflow.
+
+- **so101-ros-physical-ai**  
+  Used as the main ROS 2 / real-hardware bring-up baseline.
+
+- **SO-ARM101 MoveIt / Isaac Sim reference projects**  
+  Investigated as a MoveIt-oriented reference path.
+
+> Replace the list below with the actual links you want to keep in the final version:
+
+- [LeRobot](https://github.com/huggingface/lerobot)
+- [legalaspro/so101-ros-physical-ai](https://github.com/legalaspro/so101-ros-physical-ai)
+- [MuammerBay/SO-ARM101_MoveIt_IsaacSim](https://github.com/MuammerBay/SO-ARM101_MoveIt_IsaacSim)
+
+---
+
+## ✅ Current status
+
+| Component | Status | Notes |
+|---|---|---|
+| Native Ubuntu boot | ✅ Working | Much more stable than WSL for real robot work |
+| LeRobot teleoperation | ✅ Working | Follower-leader setup validated |
+| USB cameras | ✅ Working | Multi-camera setup validated |
+| Record / replay workflow | ✅ Working | Dataset recording tested |
+| ACT workflow | ✅ Previously validated | Training and online execution were validated earlier on native Ubuntu |
+| ROS 2 workspace build | ✅ Working | Workspace builds successfully |
+| ROS 2 bring-up | ✅ Working | Hardware interfaces load |
+| `joint_state_broadcaster` | ✅ Working | Active |
+| `forward_controller` | ✅ Working | Active and physically affects robot |
+| `arm_trajectory_controller` | ✅ Working | Loads and accepts goals |
+| MoveIt launch | ✅ Working | Planning scene loads |
+| MoveIt → controller communication | ✅ Working | Trajectory goals reach the controller |
+| Real pose ↔ RViz pose alignment | 🟡 Partial / not finished | Still requires calibration reconciliation |
+| Safe repeatable manipulation pipeline | 🟡 In progress | Stack is partially working but not yet fully trustworthy |
+
+---
+
+## ⚠️ Important engineering warning
+
+A **green RViz / MoveIt state does not automatically mean the real robot is correctly calibrated or safe to execute**.
+
+This project repeatedly showed that:
+
+- the software stack can look healthy
+- controllers can load
+- topics can publish valid values
+- actions can return success
+
+while the **real arm may still be in a semantically wrong pose** or may move in an unsafe way at startup.
+
+That was one of the most important practical lessons in this work.
+
+---
+
+## 🔍 Main engineering findings so far
 
 ### 1. Native Ubuntu is much better than WSL for real robot work
-A major finding was that native Ubuntu gave much more reliable behavior than WSL for real-time robot operation and integration.
 
-This affected:
+A major finding was that native Ubuntu gave much more reliable behavior than WSL for real-time robot integration.
+
+This improved:
+
 - serial reliability
 - camera handling
 - runtime stability
-- ACT online inference usability
-- ROS 2 bring-up confidence
+- teleoperation consistency
+- online ACT usability
+- general ROS 2 bring-up confidence
 
-### 2. LeRobot teleop and ROS 2 teleop are not automatically equivalent
-Direct LeRobot teleoperation worked well after proper calibration.
+---
 
-But once the ROS 2 control / teleop stack was introduced, noticeable mismatches appeared:
-- mini-latency
-- leader/follower mismatch
+### 2. Working LeRobot teleop does not automatically mean ROS 2 semantics are correct
+
+Direct LeRobot teleoperation worked well after calibration.
+
+But once the ROS 2 / MoveIt control path was introduced, new issues appeared:
+
+- startup pose jumps
 - state disagreement
-- unexpected real-arm posture during bring-up
+- leader / follower mismatch
+- RViz pose not matching real hardware pose
+- controller success without physically meaningful motion
 
-This strongly suggests that “working teleop in one stack” does not automatically mean “correct state interpretation in another stack”.
+This strongly suggests that **“works in one stack” does not mean “interpreted correctly in another stack.”**
+
+---
 
 ### 3. Calibration consistency is critical
-One of the central issues in this project was the relationship between:
+
+One of the central issues in this project is the relationship between:
+
 - servo EEPROM offsets
-- LeRobot calibration files
+- LeRobot calibration JSON files
 - ROS 2 YAML joint config
 - URDF joint axes and limits
 - MoveIt model state
 - actual mechanical pose of the arm
 
-A controller may report valid joint states and still represent a real pose that is unsafe or misleading if the calibration chain is inconsistent.
+If these layers are not aligned, the robot may report a valid state while physically being somewhere else.
+
+---
 
 ### 4. Real-hardware validation must be joint-by-joint
-A very important step was manually testing command channels using ROS topics and checking whether each command actually moved the expected physical joint.
 
-This helped distinguish:
-- command-order issues
+A very important debugging step was manually testing commanded channels one by one and checking which real joint actually moved.
+
+This helped distinguish between:
+
+- command ordering issues
 - interpretation issues
 - calibration issues
-- joint-state modeling issues
+- model-state issues
+- controller configuration issues
+
+This step was essential because software-only inspection was not enough.
 
 ---
 
-## Repository goals
+### 5. “Controller success” is not the same as “physically correct execution”
 
-This repository is being built to document:
+In this project, there were cases where:
 
-1. a real bring-up path for SO-101 / SO-ARM101 on native Ubuntu  
-2. practical debugging of LeRobot + ROS 2 + MoveIt  
-3. lessons learned from calibration and controller integration  
-4. a portfolio-quality robotics integration project  
+- a controller goal was accepted
+- execution returned success
+- RViz / MoveIt looked valid
+
+but the real robot either:
+
+- did not match the visualized state
+- moved in a non-meaningful way
+- or started from an unsafe folded pose
+
+That is a real-world integration lesson worth documenting.
 
 ---
 
-## Planned repository structure
+## 🧪 What was tested
+
+The following kinds of tests were carried out during bring-up and debugging:
+
+- LeRobot follower-leader teleoperation
+- camera discovery and runtime validation
+- dataset recording
+- replay
+- ACT training / online execution
+- ROS 2 hardware bring-up
+- controller loading and activation
+- `forward_controller` topic tests
+- MoveIt launch and planning scene validation
+- MoveIt-to-controller execution
+- per-joint command mapping checks
+- startup behavior observation under different calibration / YAML settings
+- comparison of real robot pose against reported `/joint_states`
+
+---
+
+## 🧠 Key lessons learned
+
+- A working teleop demo is only the beginning of a robotics integration project.
+- Real robot safety depends on semantic correctness, not only on successful software launch.
+- Calibration must be treated as a chain across all layers, not as an isolated file.
+- Native Linux can make a huge difference in real hardware work.
+- Manual low-level testing is often necessary even when high-level frameworks appear healthy.
+- Real-world robotics debugging is often about proving what is *actually* moving, not what the software says should move.
+
+---
+
+## 🛠️ Debugging themes documented in this repository
+
+This repository is especially focused on:
+
+- serial bring-up debugging
+- controller initialization behavior
+- joint-state interpretation
+- command-channel verification
+- startup safety
+- calibration reconciliation
+- MoveIt real-hardware validation
+- practical robotics integration under imperfect conditions
+
+---
+
+## 📂 Planned repository structure
 
 ```text
 so101-native-ubuntu-ros2-moveit/
@@ -174,111 +303,12 @@ so101-native-ubuntu-ros2-moveit/
 │   ├── ros2/
 │   ├── moveit/
 │   └── calibration/
-└── notes/
-    └── experiments.md
+├── notes/
+│   ├── timeline.md
+│   ├── experiments.md
+│   └── command_tests.md
+└── logs/
+    └── selected_logs.md
 
 
-Practical workflow covered in this project
-Stage 1 — Hardware + LeRobot bring-up
-detect serial ports
-identify follower and leader
-validate USB mapping
-bring up teleoperation
-confirm real mechanical motion
-Stage 2 — Cameras + data workflow
-attach and validate cameras
-record demonstrations
-replay trajectories
-prepare datasets
-Stage 3 — Policy learning
-ACT training
-checkpoint validation
-online inference on native Ubuntu
-Stage 4 — ROS 2 bring-up
-build workspace
-configure udev aliases
-bring up hardware interfaces
-validate joint_state_broadcaster
-validate command controllers
-Stage 5 — MoveIt
-launch MoveIt and RViz
-load kinematics and planning pipeline
-connect to ROS 2 controller
-test planning
-test execution on real hardware
-debug state mismatch and unsafe start behavior
-Safety notes
-
-This project involves real servo-driven hardware.
-Some controller / calibration states can cause sudden or unsafe motion.
-
-Important practical lessons:
-
-never assume startup pose is safe
-never trust RViz alone
-verify real robot pose before enabling execution
-test each joint incrementally
-keep motion amplitudes small during debugging
-stop immediately if the robot starts folding into itself or loading the links mechanically
-What is already valuable here from an engineering portfolio perspective
-
-## What is already valuable here from an engineering portfolio perspective
-
-This project already demonstrates:
-
-- real robot bring-up
-- debugging under imperfect conditions
-- integration across multiple software stacks
-- ability to isolate faults experimentally
-- controller-level testing
-- practical understanding of calibration and motion semantics
-- transition from “it launches” to “it is actually physically correct”
-
-That is much closer to real robotics engineering than a clean toy simulation project.
-
----
-
-## Next steps
-
-The next main steps are:
-
-- reconcile LeRobot calibration with ROS 2 configuration
-- define a safe real robot reference pose
-- verify per-joint semantic mapping against physical motion
-- align URDF / MoveIt state with real hardware state
-- test repeatable MoveIt plans from safe start poses
-- document the final stable bring-up workflow
-- add photos, screenshots, controller logs, and configuration snapshots
-
----
-
-## Intended audience
-
-This repository is useful for:
-
-- robotics students
-- mechatronics students
-- ROS 2 beginners working with real hardware
-- people integrating SO-101 / SO-ARM101
-- employers evaluating practical robotics integration work
-
----
-
-## Disclaimer
-
-This repository documents real practical experiments on a physical robot.  
-Some parts of the stack are still under active debugging and should not be treated as a finished production-ready solution.
-
-The value of the project is in the engineering process, problem isolation, and system understanding.
-
----
-
-## Author
-
-Engineering portfolio project by a mechatronics student focused on:
-
-- robotics
-- controls
-- integration
-- industrial automation
-- practical hardware/software debugging
+    
