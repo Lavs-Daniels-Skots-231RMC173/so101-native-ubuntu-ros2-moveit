@@ -222,51 +222,63 @@ keep motion amplitudes small during debugging
 stop immediately if the robot starts folding into itself or loading the links mechanically
 What is already valuable here from an engineering portfolio perspective
 
+## What is already valuable here from an engineering portfolio perspective
+
 This project already demonstrates:
 
-real robot bring-up
-debugging under imperfect conditions
-integration across multiple software stacks
-ability to isolate faults experimentally
-controller-level testing
-practical understanding of calibration and motion semantics
-transition from “it launches” to “it is actually physically correct”
+- real robot bring-up
+- debugging under imperfect conditions
+- integration across multiple software stacks
+- ability to isolate faults experimentally
+- controller-level testing
+- practical understanding of calibration and motion semantics
+- transition from “it launches” to “it is actually physically correct”
 
 That is much closer to real robotics engineering than a clean toy simulation project.
 
-Next steps
+---
+
+## Next steps
 
 The next main steps are:
 
-reconcile LeRobot calibration with ROS 2 configuration
-define a safe real robot reference pose
-verify per-joint semantic mapping against physical motion
-align URDF / MoveIt state with real hardware state
-test repeatable MoveIt plans from safe start poses
-document the final stable bring-up workflow
-add photos, screenshots, controller logs, and configuration snapshots
-Intended audience
+- reconcile LeRobot calibration with ROS 2 configuration
+- define a safe real robot reference pose
+- verify per-joint semantic mapping against physical motion
+- align URDF / MoveIt state with real hardware state
+- test repeatable MoveIt plans from safe start poses
+- document the final stable bring-up workflow
+- add photos, screenshots, controller logs, and configuration snapshots
+
+---
+
+## Intended audience
 
 This repository is useful for:
 
-robotics students
-mechatronics students
-ROS 2 beginners working with real hardware
-people integrating SO-101 / SO-ARM101
-employers evaluating practical robotics integration work
-Disclaimer
+- robotics students
+- mechatronics students
+- ROS 2 beginners working with real hardware
+- people integrating SO-101 / SO-ARM101
+- employers evaluating practical robotics integration work
 
-This repository documents real practical experiments on a physical robot.
+---
+
+## Disclaimer
+
+This repository documents real practical experiments on a physical robot.  
 Some parts of the stack are still under active debugging and should not be treated as a finished production-ready solution.
 
 The value of the project is in the engineering process, problem isolation, and system understanding.
 
-Author
+---
+
+## Author
 
 Engineering portfolio project by a mechatronics student focused on:
 
-robotics
-controls
-integration
-industrial automation
-practical hardware/software debugging
+- robotics
+- controls
+- integration
+- industrial automation
+- practical hardware/software debugging
