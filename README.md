@@ -307,8 +307,8 @@ so101-native-ubuntu-ros2-moveit/
 │   ├── timeline.md
 │   ├── experiments.md
 │   └── command_tests.md
-└── logs/
-    └── selected_logs.md```
+```md
+    └── selected_logs.md
 
 ---
 
