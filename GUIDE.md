@@ -4,7 +4,9 @@ A complete, step-by-step path for taking a **real SO-101 / SO-ARM101 leader–fo
 
 This is the exact route I went through, with the real commands, the real terminal output, and honest notes about what worked and what is still being fixed. If you follow it top to bottom you should be able to reproduce the same setup. Everything you need to install on your PC and inside Ubuntu is collected here in one place.
 
-> ⚠️ **Honest status:** the LeRobot half (teleop → dataset → ACT policy → Hugging Face) is complete and working. The ROS 2 + MoveIt half is **stood up and exercised on the real arm** — controllers load, MoveIt plans and sends goals, all 6 channels move the robot — but **end-to-end pose correctness is not finished**: the real arm and the RViz/MoveIt model do not yet fully agree because of a calibration/joint-semantics mismatch. Read Part 9 before you trust any motion on hardware.
+> ⚠️ **Honest status:** the LeRobot half (teleop → dataset → ACT policy → Hugging Face) is complete and working. The ROS 2 + MoveIt half is **stood up and exercised on the real arm** — controllers load, MoveIt plans and sends goals, all 6 channels move the robot — but **end-to-end pose correctness is not finished**: the real arm and the RViz/MoveIt model do not yet fully agree because of a calibration/joint-semantics mismatch. Read Part C before you trust any motion on hardware.
+
+> 🖼️ **Note on images:** the screenshots below are only used where I actually captured the real screen (ROS 2 launch, RViz/MoveIt, URDF editing, the physical robot). The LeRobot steps are documented with the exact commands and real log output instead of screenshots.
 
 ---
 
@@ -40,7 +42,7 @@ This is the exact route I went through, with the real commands, the real termina
 - A PC with an NVIDIA GPU for training (CUDA), and USB ports for the two arms + cameras.
 - *(optional but recommended)* an external SSD if you dual-boot / run native Ubuntu from external storage.
 
-![SO-101 arm on its base](docs/img/01_hardware.jpg)
+![Real SO-101 leader + follower arms](docs/img/01_hardware.jpg)
 
 **Software (everything installed below)**
 - Ubuntu 24.04 (native) — and/or WSL2 Ubuntu on Windows for the LeRobot stage.
@@ -119,8 +121,6 @@ lerobot-teleoperate \
 
 On my hardware this ran at a stable **~59 Hz**.
 
-![LeRobot teleoperation terminal](docs/img/02_lerobot_teleop.jpg)
-
 ### A5. Cameras
 
 Add cameras with `--robot.cameras` (OpenCV backend, by device index). I used two:
@@ -150,8 +150,6 @@ lerobot-record \
 
 My dataset: **10 episodes / 5 972 frames**, 2 cameras. It is uploaded to the Hub at `GENMES3354/so101_pick_place_2cam_v1`.
 
-![Recording the dataset](docs/img/03_record_replay.jpg)
-
 ### A7. Replay
 
 Before training, replay an episode so the **follower** re-executes a recorded demo. If replay looks correct, your data + calibration are sound:
@@ -177,7 +175,7 @@ lerobot-train \
   --policy.repo_id GENMES3354/act_so101_pick_place_2cam_v1
 ```
 
-ACT uses a ResNet-18 vision backbone (~52 M params). I trained for **5 000 steps** on GPU. The loss came down cleanly:
+ACT uses a ResNet-18 vision backbone (~52 M params). I trained for **5 000 steps** on GPU. Real training log — the loss came down cleanly:
 
 ```text
 step:200    loss:6.157   grad_norm:153.4   lr:1.0e-05
@@ -188,8 +186,6 @@ step:1800   loss:1.187
 step:2200   loss:0.949
 ...
 ```
-
-![ACT training in progress](docs/img/04_act_training.jpg)
 
 Trained policy: `GENMES3354/act_so101_pick_place_2cam_v1` on Hugging Face.
 
@@ -244,8 +240,6 @@ colcon build --symlink-install
 source install/setup.bash
 ```
 
-![ROS 2 workspace](docs/img/05_ros2_workspace.jpg)
-
 ### B3. Bring up the real hardware
 
 Launch the follower bring-up. This loads the hardware interface and starts the controllers:
@@ -275,17 +269,19 @@ You should see `joint_state_broadcaster` and a trajectory controller `active`. C
 
 ### B4. MoveIt
 
-Launch the MoveIt config and plan in RViz:
+Launch the MoveIt config and RViz:
 
 ```bash
-ros2 launch so101_moveit_config demo.launch.py
+ros2 launch so101_moveit_config moveit_rviz.launch.py
 ```
+
+![Launching MoveIt + RViz from the terminal](docs/img/ros2_launch.jpg)
 
 In RViz, drag the interactive marker to a goal pose, **Plan**, then **Execute** — the trajectory is sent to the real controller.
 
 ![MoveIt motion planning in RViz](docs/img/06_rviz_moveit.jpg)
 
-![SO-101 model with joint frames in RViz](docs/img/07_rviz_model.jpg)
+![SO-101 model in RViz / MoveIt (moveit.rviz config)](docs/img/07_rviz_model.jpg)
 
 > ✅ Planning works and goals reach the controller. ⚠️ Whether the **real** arm ends up where the model says it does is the open problem — Part C.
 
@@ -306,13 +302,17 @@ servo EEPROM offsets
                → actual mechanical pose of the arm
 ```
 
+The URDF / Xacro is one of those links — joint axes, limits and inertials all have to be right:
+
+![Editing the SO-101 URDF / Xacro (so101_arm_common.xacro)](docs/img/urdf_edit.jpg)
+
 If any link disagrees, the model and the real robot drift apart. How I debug it:
 
 - **Validate joint-by-joint.** Command one channel at a time and watch which *real* joint moves, in which direction, and how far. Don't trust software inspection alone.
 - **Compare** the reported `/joint_states` against the physical pose.
 - **Define a known-safe reference pose** and always start from it (avoid an unsafe folded-pose jump at startup).
 
-![Real arm vs model — pose comparison](docs/img/08_real_robot.jpg)
+![Real SO-101 arm during joint-by-joint testing](docs/img/08_real_robot.jpg)
 
 This reconciliation is the part still in progress.
 
