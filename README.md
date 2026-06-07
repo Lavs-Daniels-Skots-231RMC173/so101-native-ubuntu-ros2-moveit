@@ -1,3 +1,5 @@
+> 📖 **New here?** Follow the complete step-by-step bring-up guide → https://github.com/Lavs-Daniels-Skots-231RMC173/so101-native-ubuntu-ros2-moveit/blob/main/GUIDE.md
+
 # SO-101 Native Ubuntu ROS 2 MoveIt Bring-Up
 
 > Real-hardware bring-up of a real **SO-101 / SO-ARM101 follower-leader robot** on **native Ubuntu** with **LeRobot**, **ROS 2 Jazzy**, and **MoveIt**.
