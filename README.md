@@ -419,3 +419,11 @@ This repository will continue to evolve as the following are documented:
 - lessons learned from debugging real robot semantics
 
 If you are working on a similar robot stack, this repo may help you avoid the same bring-up pitfalls.
+
+
+---
+
+## 🔗 Related projects
+
+- **[SkateArm — bimanual work-cell & Skate Commander cockpit](https://github.com/Lavs-Daniels-Skots-231RMC173/skatearm)** — a sim-first MuJoCo work-cell + browser cockpit (drag-IK, natural-language → program, vision-guided pick) for the R.Botic Skate robot.
+- **[Engineering Portfolio](https://github.com/Lavs-Daniels-Skots-231RMC173/engineering-portfolio)** — 11 academic & applied engineering projects.
