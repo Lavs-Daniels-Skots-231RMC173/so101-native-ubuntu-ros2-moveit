@@ -81,8 +81,6 @@ This repository is intended as both:
 
 ## 📷 Screenshots and real robot
 
-> Add your own images into the repository and update these paths if needed.
-
 ### Real robot
 ![Real robot folded pose](images/real_robot/follower_folded_pose.jpg)
 
@@ -109,8 +107,6 @@ This project was informed by or built around the following open-source work:
 
 - **SO-ARM101 MoveIt / Isaac Sim reference projects**  
   Investigated as a MoveIt-oriented reference path.
-
-> Replace the list below with the actual links you want to keep in the final version:
 
 - [LeRobot](https://github.com/huggingface/lerobot)
 - [legalaspro/so101-ros-physical-ai](https://github.com/legalaspro/so101-ros-physical-ai)
